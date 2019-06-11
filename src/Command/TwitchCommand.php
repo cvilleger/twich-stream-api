@@ -6,6 +6,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TwitchCommand extends Command
@@ -15,9 +17,11 @@ class TwitchCommand extends Command
     private $twitchClient;
     private $twitchClientId;
     private $twitchLogins;
+    private $cache;
 
-    public function __construct(HttpClientInterface $twitchClient, string $twitchClientId, string $twitchLogins)
+    public function __construct(CacheInterface $cache, HttpClientInterface $twitchClient, string $twitchClientId, string $twitchLogins)
     {
+        $this->cache = $cache;
         $this->twitchClient = $twitchClient;
         $this->twitchClientId = $twitchClientId;
         $this->twitchLogins = $twitchLogins;
@@ -34,6 +38,16 @@ class TwitchCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $this->cache->delete('twitch.responses');
+        $this->cache->get('twitch.responses', function (ItemInterface $item) {
+            return $this->getReponses();
+        });
+
+        $io->success('Success');
+    }
+
+    private function getReponses(): array
+    {
         $options = [
             'headers' => [
                 'Client-ID' => $this->twitchClientId,
@@ -51,6 +65,6 @@ class TwitchCommand extends Command
             }
         }
 
-        $io->success('Success');
+        return $responses;
     }
 }
