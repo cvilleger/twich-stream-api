@@ -9,6 +9,7 @@
         "symfony/dotenv": "4.3.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.3.*",
+        "symfony/http-client": "4.3.*",
         "symfony/yaml": "4.3.*"
     },
     "config": {
@@ -55,5 +56,9 @@
             "allow-contrib": false,
             "require": "4.3.*"
         }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.11",
+        "symfony/var-dumper": "4.3.*"
     }
 }
