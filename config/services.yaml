@@ -29,4 +29,4 @@ services:
     App\Command\TwitchCommand:
         bind:
             $twitchClientId: '%env(TWITCH_CLIENT_ID)%'
-            $twitchLogins: '%env(TWITCH_LOGINS)%'
+            $twitchFamily: '%env(TWITCH_FAMILY)%'

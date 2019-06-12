@@ -16,15 +16,15 @@ class TwitchCommand extends Command
 
     private $twitchClient;
     private $twitchClientId;
-    private $twitchLogins;
+    private $twitchFamily;
     private $cache;
 
-    public function __construct(CacheInterface $cache, HttpClientInterface $twitchClient, string $twitchClientId, string $twitchLogins)
+    public function __construct(CacheInterface $cache, HttpClientInterface $twitchClient, string $twitchClientId, string $twitchFamily)
     {
         $this->cache = $cache;
         $this->twitchClient = $twitchClient;
         $this->twitchClientId = $twitchClientId;
-        $this->twitchLogins = $twitchLogins;
+        $this->twitchFamily = $twitchFamily;
 
         Command::__construct();
     }
@@ -39,7 +39,9 @@ class TwitchCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $this->cache->delete('twitch.responses');
+
         $this->cache->get('twitch.responses', function (ItemInterface $item) {
+            $item->expiresAfter(60);
             return $this->getReponses();
         });
 
@@ -51,20 +53,27 @@ class TwitchCommand extends Command
         $options = [
             'headers' => [
                 'Client-ID' => $this->twitchClientId,
+                'Accept' => 'application/vnd.twitchtv.v5+json',
             ],
         ];
 
-        $responses = [];
-        $twitchLogins = explode(',', $this->twitchLogins);
-        foreach ($twitchLogins as $twitchLogin) {
-            $url = sprintf('/helix/streams?user_login=%s', $twitchLogin);
-            $response = $this->twitchClient->request('GET', $url, $options)->toArray();
+        $url = sprintf('kraken/teams/%s', $this->twitchFamily);
+        $responseTeam = $this->twitchClient->request('GET', $url, $options)->toArray();
 
-            if (isset($response['data'][0])){
-                $responses[$twitchLogin] = $response['data'][0];
-            }
+        $url = 'helix/streams?';
+        foreach ($responseTeam['users'] as $user){
+            $url .= sprintf('user_login=%s&', $user['name']);
         }
 
-        return $responses;
+        $options = [
+            'headers' => [
+                'Client-ID' => $this->twitchClientId,
+            ],
+        ];
+
+        //TODO Refacto
+        $responseStreams = $this->twitchClient->request('GET', $url, $options)->toArray()['data'];
+
+        return $responseStreams;
     }
 }

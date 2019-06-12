@@ -20,3 +20,9 @@ framework:
         scoped_clients:
             twitch.client:
                 base_uri: 'https://api.twitch.tv'
+
+    cache:
+        pools:
+            cache.filesystem:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 60
