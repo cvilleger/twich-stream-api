@@ -40,8 +40,7 @@ class TwitchCommand extends Command
 
         $this->cache->delete('twitch.responses');
 
-        $this->cache->get('twitch.responses', function (ItemInterface $item) {
-            $item->expiresAfter(60);
+        $this->cache->get('twitch.responses', function () {
             return $this->getReponses();
         });
 
