@@ -2,8 +2,20 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <title>{% block title %}Site Officiel de Sir-Aza{% endblock %}</title>
+        {% block stylesheets %}
+            <style type="text/css">
+                body {
+                    background-image: url("underconstruction.jpg");
+                    background-color: black;
+                    height: 400px;
+                    background-position: top;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+            </style>
+        {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
