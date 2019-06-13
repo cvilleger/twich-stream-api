@@ -5,7 +5,7 @@ namespace App\Controller;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class TwitchController extends AbstractFOSRestController
+class TwitchApiController extends AbstractFOSRestController
 {
     private $cache;
 
@@ -14,7 +14,7 @@ class TwitchController extends AbstractFOSRestController
         $this->cache = $cache;
     }
 
-    public function getTwitchAction()
+    public function getApiTwitchAction()
     {
         return $this->json($this->cache->get('twitch.responses', function (){}));
     }
