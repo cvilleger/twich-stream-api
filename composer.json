@@ -6,6 +6,9 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/rest-bundle": "^2.5",
+        "hwi/oauth-bundle": "^0.6.3",
+        "php-http/guzzle6-adapter": "^1.1",
+        "php-http/httplug-bundle": "^1.16",
         "sensio/framework-extra-bundle": "^5.3",
         "symfony/cache": "4.3.*",
         "symfony/console": "4.3.*",
@@ -14,6 +17,7 @@
         "symfony/framework-bundle": "4.3.*",
         "symfony/http-client": "4.3.*",
         "symfony/serializer": "4.3.*",
+        "symfony/translation": "4.3.*",
         "symfony/twig-bundle": "4.3.*",
         "symfony/yaml": "4.3.*"
     },
@@ -58,7 +62,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.3.*"
         }
     },
