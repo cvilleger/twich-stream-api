@@ -3,7 +3,16 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'twitch' }) }}">
-        <span>Login with Twitch</span>
-    </a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <ul>
+            <li>{{ app.user.email }}</li>
+            <li>{{ app.user.username }}</li>
+            <li><img src="{{ app.user.profilePicture }}" alt="Profile Picture"></li>
+        </ul>
+        <a class="link" href="{{ path('logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'twitch' }) }}">
+            <span>Login with Twitch</span>
+        </a>
+    {% endif %}
 {% endblock %}
