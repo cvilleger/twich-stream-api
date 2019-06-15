@@ -3,8 +3,7 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-</style>
-
-
+    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'twitch' }) }}">
+        <span>Login with Twitch</span>
+    </a>
 {% endblock %}

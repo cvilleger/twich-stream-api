@@ -2,25 +2,25 @@
 
 namespace App\Provider;
 
+use App\Entity\User;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserProvider implements OAuthAwareUserProviderInterface
+class UserProvider extends EntityUserProvider
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, User::class, ['twitch' => 'email']);
+    }
 
     /**
-     * Loads the user by a given UserResponseInterface object.
-     *
-     * @param UserResponseInterface $response
-     *
-     * @return UserInterface
-     *
-     * @throws UsernameNotFoundException if the user is not found
+     * {@inheritdoc}
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): ?UserInterface
     {
+        dd($response->getData());
         // TODO: Implement loadUserByOAuthUserResponse() method.
     }
 }

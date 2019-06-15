@@ -1,17 +1,21 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        users:
+            entity:
+                class: 'App\Entity\User'
+                property: 'email'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        secured_area:
             anonymous: ~
+            logout: true
             oauth:
                 resource_owners:
-                    twitch:           "/connect/twitch"
-                login_path:        /login
+                    twitch:           "/login/check-twitch"
+                login_path:        /connect/twitch
                 use_forward:       false
                 failure_path:      /
 
@@ -29,3 +33,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
