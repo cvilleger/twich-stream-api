@@ -20,7 +20,17 @@ class UserProvider extends EntityUserProvider
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): ?UserInterface
     {
-        dd($response->getData());
-        // TODO: Implement loadUserByOAuthUserResponse() method.
+        $email = $response->getEmail();
+
+        if (null === $user = $this->findUser(['email' => $email])) {
+            $user = new User();
+            $user->setEmail($email);
+            $user->setUsername($response->getNickname());
+            $user->setProfilePicture($response->getProfilePicture());
+            $this->em->persist($user);
+            $this->em->flush();
+        }
+
+        return $user;
     }
 }
