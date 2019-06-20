@@ -23,6 +23,7 @@ class UserProvider extends EntityUserProvider
         $email = $response->getEmail();
         if (null === $user = $this->findUser(['email' => $email])) {
             $user = new User();
+            $user->setTwitterId($response->getUsername());
             $user->setEmail($email);
             $user->setTwitterCreatedAt(new \DateTime($response->getData()['created_at']));
         }

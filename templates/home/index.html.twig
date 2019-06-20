@@ -5,9 +5,17 @@
 {% block body %}
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <ul>
-            <li>{{ app.user.email }}</li>
-            <li>{{ app.user.username }}</li>
             <li><img src="{{ app.user.profilePicture }}" alt="Profile Picture"></li>
+            <li>Display Name : {{ app.user.displayName }}</li>
+            <li>Username : {{ app.user.username }}</li>
+            <li>Email : {{ app.user.email }}</li>
+            <li>Roles : {{ app.user.roles|join(',') }}</li>
+            <li>Email Verified : {{ app.user.emailVerified ? 'Yes':'No' }}</li>
+            <li>Twitter Created At : {{ app.user.twitterCreatedAt|date }}</li>
+            <li>Twitter ID : {{ app.user.twitterId }}</li>
+            <li>Partnered : {{ app.user.partnered ? 'Yes':'No' }}</li>
+            <li>Created At : {{ app.user.createdAt|date }}</li>
+            <li>Updated At : {{ app.user.updatedAt|date }}</li>
         </ul>
         <a class="link" href="{{ path('logout') }}">Logout</a>
     {% else %}

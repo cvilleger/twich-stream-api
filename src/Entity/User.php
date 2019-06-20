@@ -76,6 +76,13 @@ class User implements UserInterface
      */
     protected $twitterCreatedAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column()
+     */
+    protected $twitterId;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
@@ -196,6 +203,17 @@ class User implements UserInterface
     {
         $this->twitterCreatedAt = $twitterCreatedAt;
 
+        return $this;
+    }
+
+    public function getTwitterId(): string
+    {
+        return $this->twitterId;
+    }
+
+    public function setTwitterId(string $twitterId): self
+    {
+        $this->twitterId = $twitterId;
         return $this;
     }
 
